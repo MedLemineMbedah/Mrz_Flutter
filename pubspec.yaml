@@ -36,6 +36,14 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_mrz_scanner: ^2.0.0
   permission_handler:
+  dio: ^4.0.6
+  file_picker: ^4.5.1
+  top_snackbar_flutter: ^1.0.2
+  flutter_easyloading: ^3.0.3
+  image_picker: ^0.8.5
+  images_picker: ^1.2.11
+  provider: ^6.0.2
+  
 
 dev_dependencies:
   flutter_test:
