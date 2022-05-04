@@ -1,6 +1,9 @@
-//import 'package:flutter/material.dart';
+// ignore_for_file: unnecessary_new, prefer_const_constructors, duplicate_ignore, unused_import, prefer_const_constructors_in_immutables, unused_local_variable, avoid_print
+
+// ignore: unused_import
 import 'dart:io';
 
+// ignore: unused_import
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -9,6 +12,7 @@ import 'package:flutter_mrz_scanner/flutter_mrz_scanner.dart';
 
 void main() => runApp(new MyApp());
 
+// ignore: use_key_in_widget_constructors
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -16,19 +20,23 @@ class MyApp extends StatelessWidget {
       MyItemsPage.routeName: (BuildContext context) =>
           new MyItemsPage(title: "MyItemsPage"),
     };
+    // ignore: unnecessary_new
     return new MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      // theme: new ThemeData(
+      //   primarySwatch: Colors.blue,
+      // ),
       home: new MyHomePage(title: 'KYC'),
       routes: routes,
+      theme: ThemeData(),
+      darkTheme: ThemeData.dark(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  // ignore: prefer_const_constructors_in_immutables
   MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
@@ -41,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String? path;
   bool isParsed = false;
   MRZController? controller;
+  bool isEnable = false;
 
   @override
   void initState() {
@@ -49,14 +58,74 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var button_Prendre_Imange = new ElevatedButton(
-      child: Text('Prendre Imange'),
+    //Forms
+    var formEmail = new Form(
+        child: TextField(
+            decoration: const InputDecoration(
+      // ignore: unnecessary_const
+      icon: const Icon(Icons.mail),
+      hintText: 'Entrer Votre Email ',
+      labelText: 'Email',
+    )));
+    var formPassword = new Form(
+        child: TextField(
+            decoration: const InputDecoration(
+      // ignore: unnecessary_const
+      icon: const Icon(Icons.password),
+      hintText: 'Entrer Votre Mot De Passe ',
+      labelText: 'Mot De Passe',
+    )));
+    var formConfirmPassword = new Form(
+        child: TextField(
+            decoration: const InputDecoration(
+      // ignore: unnecessary_const
+      icon: const Icon(Icons.password),
+      hintText: 'Confirmer Mot De passe',
+      labelText: 'Confirmer Mot De passe',
+    )));
+
+    ///Button
+    // ignore: non_constant_identifier_names, duplicate_ignore
+    var button_Prendre_Imange_Av = new ElevatedButton(
+      // ignore: prefer_const_constructors
+      child: Text('Prendre Imange De Face Avant'),
       onPressed: () async {
         _bottomSheet(context);
       },
+      style: ElevatedButton.styleFrom(
+        primary: Colors.amber, // Background color
+      ),
     );
-    var button_Scanner =
-        new ElevatedButton(child: Text('Scanner'), onPressed: _onButtonPressed);
+    // ignore: non_constant_identifier_names
+    var button_Prendre_Imange_Ar = new ElevatedButton(
+      // ignore: prefer_const_constructors
+      child: Text('Prendre Imange De Face Arriere'),
+      onPressed: () async {
+        _bottomSheet(context);
+      },
+      style: ElevatedButton.styleFrom(
+        primary: Colors.amber,
+        // Background color
+      ),
+    );
+    // ignore: non_constant_identifier_names
+    var button_Scanner = new ElevatedButton(
+      // ignore: prefer_const_constructors
+      child: Text('Scanner'),
+      onPressed: _onButtonPressed,
+      style: ElevatedButton.styleFrom(
+        primary: Colors.amber, // Background color
+      ),
+    );
+    // ignore: non_constant_identifier_names
+    var button_Valider = new ElevatedButton(
+      onPressed: _onButtonPressed,
+      // ignore: prefer_const_constructors
+      child: Text('Register'),
+      style: ElevatedButton.styleFrom(
+        primary: Colors.green, // Background color
+      ),
+    );
 
     return new Scaffold(
       appBar: new AppBar(
@@ -65,7 +134,15 @@ class _MyHomePageState extends State<MyHomePage> {
       body: new Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[button_Scanner, button_Prendre_Imange],
+        children: <Widget>[
+          formEmail,
+          formPassword,
+          formConfirmPassword,
+          button_Scanner,
+          button_Prendre_Imange_Av,
+          button_Prendre_Imange_Ar,
+          button_Valider
+        ],
       ),
     );
   }
@@ -75,6 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
         context: context,
         builder: (BuildContext c) {
           return Wrap(children: <Widget>[
+            // ignore: avoid_unnecessary_containers
             Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -151,6 +229,7 @@ class _MyItemsPageState extends State<MyItemsPage> {
     );
   }
 
+  // ignore: unused_element
   void _onFloatingActionButtonPressed() {}
 
   void _onButtonPressed() {
@@ -170,7 +249,9 @@ class _MyItemsPageState extends State<MyItemsPage> {
         return;
       }
       isParsed = true;
-
+      if (result.documentType == 'I') {
+        setState(() {});
+      }
       await showDialog<void>(
           context: context,
           builder: (context) => AlertDialog(
@@ -199,7 +280,6 @@ class _MyItemsPageState extends State<MyItemsPage> {
               )));
     };
     controller.onError = (error) => print(error);
-
     controller.startPreview();
   }
 }
